@@ -59,7 +59,7 @@ target_link_libraries(camera_node camera_nodelet ${catkin_LIBRARIES} ${Aravis_LI
 add_dependencies(camera_node camera_nodelet)
 
 install(TARGETS camera_node
-   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 install(TARGETS camera_nodelet
    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
