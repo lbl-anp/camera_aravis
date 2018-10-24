@@ -48,7 +48,7 @@ catkin_package(
 )
 
 message(${Aravis_LIBRARIES})
-message("This is the project name LOOKHERE ${PROJECT_NAME}")
+message("This is the project name: ${PROJECT_NAME}")
 
 add_library(camera_nodelet src/camera_nodelet.cpp)
 target_link_libraries(camera_nodelet ${catkin_LIBRARIES} ${Aravis_LIBRARIES} glib-2.0 gmodule-2.0 gobject-2.0)
@@ -59,12 +59,12 @@ add_executable(camera_node src/camera_node.cpp)
 target_link_libraries(camera_node camera_nodelet ${catkin_LIBRARIES} ${Aravis_LIBRARIES} glib-2.0 gmodule-2.0 gobject-2.0)
 add_dependencies(camera_node camera_nodelet)
 
-install(TARGETS ${PROJECT_NAME} camera_node
+install(TARGETS camera_node
    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
 
-install(TARGETS ${PROJECT_NAME} camera_nodelet
+install(TARGETS camera_nodelet
    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
