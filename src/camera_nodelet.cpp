@@ -640,32 +640,32 @@ void CameraNodelet::PrintDOMTree(ArvGc *pGenicam, NODEEX nodeex, int nIndent, bo
 //
 void CameraNodelet::WriteCameraFeaturesFromRosparam(ros::NodeHandle& nh)
 {
-  XmlRpc::XmlRpcValue	 			 xmlrpcParams;
-  XmlRpc::XmlRpcValue::iterator	 iter;
-  ArvGcNode						*pGcNode;
-  GError							*error=NULL;
+  XmlRpc::XmlRpcValue xmlrpcParams;
+  XmlRpc::XmlRpcValue::iterator  iter;
+  ArvGcNode *pGcNode;
+  GError *error=NULL;
 
-
-  nh.getParam (ros::this_node::getNamespace(), xmlrpcParams);
+  nh.getParam(nh.getNamespace(), xmlrpcParams);
 
   if (xmlrpcParams.getType() == XmlRpc::XmlRpcValue::TypeStruct)
   {
     for (iter=xmlrpcParams.begin(); iter!=xmlrpcParams.end(); iter++)
     {
-      std::string		key = iter->first;
+      std::string  key = iter->first;
+      //ROS_INFO("READ STRING %s %s %s", (ros::this_node::getNamespace()).c_str(), key.c_str(), (iter->second).c_str());
 
       pGcNode = arv_device_get_feature (pDevice, key.c_str());
       if (pGcNode && arv_gc_feature_node_is_implemented (ARV_GC_FEATURE_NODE (pGcNode), &error))
       {
-        //				unsigned long	typeValue = arv_gc_feature_node_get_value_type((ArvGcFeatureNode *)pGcNode);
-        //				ROS_INFO ("%s cameratype=%lu, rosparamtype=%d", key.c_str(), typeValue, static_cast<int>(iter->second.getType()));
+        // unsigned long	typeValue = arv_gc_feature_node_get_value_type((ArvGcFeatureNode *)pGcNode);
+        // ROS_INFO ("%s cameratype=%lu, rosparamtype=%d", key.c_str(), typeValue, static_cast<int>(iter->second.getType()));
 
         // We'd like to check the value types too, but typeValue is often given as G_TYPE_INVALID, so ignore it.
         switch (iter->second.getType())
         {
           case XmlRpc::XmlRpcValue::TypeBoolean://if ((iter->second.getType()==XmlRpc::XmlRpcValue::TypeBoolean))// && (typeValue==G_TYPE_INT64))
           {
-            int			value = (bool)iter->second;
+            int value = (bool)iter->second;
             arv_device_set_integer_feature_value(pDevice, key.c_str(), value);
             ROS_INFO ("Read parameter (bool) %s: %d", key.c_str(), value);
           }
@@ -673,7 +673,7 @@ void CameraNodelet::WriteCameraFeaturesFromRosparam(ros::NodeHandle& nh)
 
           case XmlRpc::XmlRpcValue::TypeInt: //if ((iter->second.getType()==XmlRpc::XmlRpcValue::TypeInt))// && (typeValue==G_TYPE_INT64))
           {
-            int			value = (int)iter->second;
+            int value = (int)iter->second;
             arv_device_set_integer_feature_value(pDevice, key.c_str(), value);
             ROS_INFO ("Read parameter (int) %s: %d", key.c_str(), value);
           }
@@ -681,7 +681,7 @@ void CameraNodelet::WriteCameraFeaturesFromRosparam(ros::NodeHandle& nh)
 
           case XmlRpc::XmlRpcValue::TypeDouble: //if ((iter->second.getType()==XmlRpc::XmlRpcValue::TypeDouble))// && (typeValue==G_TYPE_DOUBLE))
           {
-            double		value = (double)iter->second;
+            double value = (double)iter->second;
             arv_device_set_float_feature_value(pDevice, key.c_str(), value);
             ROS_INFO ("Read parameter (float) %s: %f", key.c_str(), value);
           }
@@ -1011,7 +1011,7 @@ void CameraNodelet::onInitImpl()
   }
 
   // TODO: why are we writing the ros params?
-  // WriteCameraFeaturesFromRosparam(nh);
+  WriteCameraFeaturesFromRosparam(nh);
 
   // Get parameter current values.
   xRoi=0; yRoi=0; widthRoi=0; heightRoi=0;
