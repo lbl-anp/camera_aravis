@@ -1119,8 +1119,8 @@ void CameraNodelet::onInitImpl()
   // Connect signals with callbacks.
   g_signal_connect(pStream, "new-buffer",   G_CALLBACK(NewBuffer_callback),   this);
   g_signal_connect(pDevice, "control-lost", G_CALLBACK(ControlLost_callback), this);
-  g_timeout_add_seconds (1, PeriodicTask_callback, (void *)this);
-  arv_stream_set_emit_signals ((ArvStream *)pStream, TRUE);
+  g_timeout_add_seconds(1, PeriodicTask_callback, (void *)this);
+  arv_stream_set_emit_signals((ArvStream *)pStream, TRUE);
 
   void (*pSigintHandlerOld)(int);
   pSigintHandlerOld = signal(SIGINT, set_cancel);
@@ -1154,6 +1154,8 @@ void CameraNodelet::onInitImpl()
   ROS_INFO("Missing           = %Lu", (unsigned long long) n_missing);
 
   arv_device_execute_command(pDevice, "AcquisitionStop");
+
+  arv_stream_set_emit_signals((ArvStream *)pStream, FALSE);
 
   g_object_unref(pStream);
 
